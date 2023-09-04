@@ -1,6 +1,6 @@
 {
-	"fuseaccessServer": "http://192.168.0.4:3000",
-	"serverToForward": "http://192.168.0.4:4000",
+	"fuseaccessServer": "http://192.168.0.103:3000",
+	"serverToForward": "http://192.168.0.103:4000",
 	"companyChannel": "1",
 	"sockectsTimeout": 3600
 }

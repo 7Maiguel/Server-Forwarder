@@ -16,11 +16,11 @@ class WSServerForward(WebSocketFuseaccess):
         message = msg["message"]
         print(msg)
         response = send_petition(
-            "http://192.168.0.4:4000/api/fuseaccess/"+message["url"], method=message["method"], json_data=message["data"], headers=message["headers"])
+            "http://192.168.0.103:4000"+message["url"], method=message["method"], json_data=message["data"], headers=message["headers"])
         if response:
+            print(response.json())
             msg["response"]=response.json()
-            self.send_message("get_data",msg)
-            # super().send_message(response.json)
+            self.send_message("get_response",msg)
 
 
 ws = WSServerForward("ServerForwardChannel")
