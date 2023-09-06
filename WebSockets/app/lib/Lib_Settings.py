@@ -1,24 +1,8 @@
-import json
 import os
 
-CURRENT_DIR_PATH = os.path.dirname(os.path.realpath(__file__))
+CENTRALIZER_SERVER = os.environ.get('CENTRALIZER_SERVER')
+SERVER_TO_FORWARD = os.environ.get('SERVER_TO_FORWARD')
+CHANEL_UUID = os.environ.get('CHANEL_UUID')
+SOCKECTS_TIMEOUT = int(os.environ.get('SOCKECTS_TIMEOUT'))
 
 
-def Get_Rout_server():
-    file = open(CURRENT_DIR_PATH + "/../../../Config.json")
-    data = json.load(file)
-    file.close()
-    return data["fuseaccessServer"]
-
-def Get_Forward_server():
-    file = open(CURRENT_DIR_PATH + "/../../../Config.json")
-    data = json.load(file)
-    file.close()
-    return data["serverToForward"]
-
-
-def Get_Socket_Timeout():
-    file = open(CURRENT_DIR_PATH + "/../../../Config.json")
-    data = json.load(file)
-    file.close()
-    return data["sockectsTimeout"]

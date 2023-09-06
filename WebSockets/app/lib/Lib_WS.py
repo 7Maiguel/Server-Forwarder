@@ -1,17 +1,16 @@
 from actioncable.connection import Connection
 from actioncable.subscription import Subscription
 from actioncable.message import Message
-from lib.Lib_Settings import Get_Rout_server
-from lib.Fun_Dispositivo import Get_ID_Dispositivo
+from lib.Lib_Settings import CENTRALIZER_SERVER, CHANEL_UUID
 
 
 class WebSocketFuseaccess():
 
     def __init__(self, channel):
-        url = Get_Rout_server()
+        url = CENTRALIZER_SERVER
         ws_url = url.replace("http", "ws", 1) + "/cable"
         self.ws_url = ws_url
-        self.uuid = Get_ID_Dispositivo()
+        self.uuid = CHANEL_UUID
         self.channel = channel
 
     def create_connection(self):
