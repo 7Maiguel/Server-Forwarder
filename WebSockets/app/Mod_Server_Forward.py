@@ -11,6 +11,7 @@ CURRENT_DIR_PATH = os.path.dirname(os.path.realpath(__file__))
 
 class WSServerForward(WebSocketFuseaccess):
     def on_message(self, msg):
+        print(msg)
         message = msg["message"]
         response = send_petition(
             SERVER_TO_FORWARD + message["url"],
@@ -27,6 +28,7 @@ ws = WSServerForward("ServerForwardChannel")
 
 
 while True:
+    print("Iniciando servicio")
     ws.create_connection()
     time.sleep(SOCKECTS_TIMEOUT)
     ws.close_connection()

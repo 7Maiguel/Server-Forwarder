@@ -1,27 +1,38 @@
 from actioncable.connection import Connection
 from actioncable.subscription import Subscription
 from actioncable.message import Message
-from lib.Lib_Settings import CENTRALIZER_SERVER, CHANEL_UUID
+# import websocket
+from lib.Lib_Settings import CENTRALIZER_SERVER, CHANEL_UUID, WSS_CENTRALIZER_SERVER
 
 
 class WebSocketFuseaccess():
 
     def __init__(self, channel):
+        print(self)
+        print(channel)
         url = CENTRALIZER_SERVER
-        ws_url = url.replace("http", "ws", 1) + "/cable"
+        ws_url = WSS_CENTRALIZER_SERVER
         self.ws_url = ws_url
         self.uuid = CHANEL_UUID
         self.channel = channel
 
     def create_connection(self):
-        connection = Connection(url=self.ws_url)
+        url = CENTRALIZER_SERVER
+        ws_url = WSS_CENTRALIZER_SERVER
+        print(ws_url)
+        # connection = Connection(url=self.ws_url)
+        connection = Connection(url=ws_url, origin=url)
+        # connection = websockets.connect(ws_url)
+        print(connection)
         connection.connect()
-
+        print(connection.connect())
+        print(self.channel)
+        print(self.uuid)
         subscription = Subscription(connection,
                                     identifier={
                                         'channel': self.channel, 'uuid': self.uuid}
                                     )
-
+        print(subscription)
         subscription.on_receive(callback=self.on_message)
         subscription.create()
         self.connection = connection
