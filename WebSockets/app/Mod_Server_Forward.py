@@ -1,7 +1,6 @@
 from lib.Lib_WS import WebSocketFuseaccess
-from lib.Lib_Settings import CENTRALIZER_SERVER, SERVER_TO_FORWARD, SOCKECTS_TIMEOUT
+from lib.Lib_Settings import SERVER_TO_FORWARD, SOCKECTS_TIMEOUT
 from lib.Lib_Request_Json import send_petition
-from operator import attrgetter
 import time
 import os
 
@@ -11,7 +10,6 @@ CURRENT_DIR_PATH = os.path.dirname(os.path.realpath(__file__))
 
 class WSServerForward(WebSocketFuseaccess):
     def on_message(self, msg):
-        print(msg)
         message = msg["message"]
         response = send_petition(
             SERVER_TO_FORWARD + message["url"],
@@ -25,10 +23,14 @@ class WSServerForward(WebSocketFuseaccess):
 
 
 ws = WSServerForward("ServerForwardChannel")
-
-
+next_reconection_time = time.time() + SOCKECTS_TIMEOUT
+ws.create_connection()
 while True:
-    print("Iniciando servicio")
-    ws.create_connection()
-    time.sleep(SOCKECTS_TIMEOUT)
-    ws.close_connection()
+    time.sleep(0.5)
+    if ws.connection and ws.subscription:
+        time_now = time.time()
+        if time_now > next_reconection_time:
+            ws.close_connection()
+            next_reconection_time = time_now + SOCKECTS_TIMEOUT
+    else:
+        ws.create_connection()
