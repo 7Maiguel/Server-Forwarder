@@ -30,9 +30,9 @@ while True:
         time.sleep(10)
         if ws.connection and ws.connection.connected and ws.subscription:
             time_now = time.time()
-        if time_now > next_reconection_time:
-            ws.close_connection()
-            next_reconection_time = time_now + SOCKECTS_TIMEOUT
+            if time_now > next_reconection_time:
+                ws.close_connection()
+                next_reconection_time = time_now + SOCKECTS_TIMEOUT
         else:
             ws.create_connection()
     except Exception as e:
