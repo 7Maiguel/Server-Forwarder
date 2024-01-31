@@ -26,11 +26,14 @@ ws = WSServerForward("ServerForwardChannel")
 next_reconection_time = time.time() + SOCKECTS_TIMEOUT
 ws.create_connection()
 while True:
-    time.sleep(0.5)
-    if ws.connection and ws.subscription:
-        time_now = time.time()
+    try:
+        time.sleep(10)
+        if ws.connection and ws.connection.connected and ws.subscription:
+            time_now = time.time()
         if time_now > next_reconection_time:
             ws.close_connection()
             next_reconection_time = time_now + SOCKECTS_TIMEOUT
-    else:
-        ws.create_connection()
+        else:
+            ws.create_connection()
+    except Exception as e:
+        print(e)
