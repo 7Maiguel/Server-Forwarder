@@ -34,6 +34,7 @@ while True:
                 ws.close_connection()
                 next_reconection_time = time_now + SOCKECTS_TIMEOUT
         else:
+            ws.close_connection()
             ws.create_connection()
             time.sleep(15)
     except Exception as e:
